@@ -9,9 +9,10 @@ import {
 
 type UploadProps = {
   onComplete?: (base64Data: string) => void;
+  onError?: (error: Error) => void;
 };
 
-const Upload = ({ onComplete }: UploadProps) => {
+const Upload = ({ onComplete, onError }: UploadProps) => {
   const [file, setFile] = useState<File | null>(null);
   const [isDragging, setIsDragging] = useState(false);
   const [progress, setProgress] = useState(0);
@@ -72,7 +73,34 @@ const Upload = ({ onComplete }: UploadProps) => {
       }, PROGRESS_INTERVAL_MS);
     };
 
-    reader.readAsDataURL(selectedFile);
+    reader.onerror = () => {
+      clearTimers();
+      setProgress(0);
+
+      const error = reader.error ?? new Error("Failed to read the selected file.");
+
+      if (onError) {
+        onError(error);
+      } else {
+        console.error(error);
+      }
+    };
+
+    try {
+      reader.readAsDataURL(selectedFile);
+    } catch (error) {
+      clearTimers();
+      setProgress(0);
+
+      const readError =
+        error instanceof Error ? error : new Error("Failed to read the selected file.");
+
+      if (onError) {
+        onError(readError);
+      } else {
+        console.error(readError);
+      }
+    }
   };
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
