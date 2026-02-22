@@ -1,7 +1,5 @@
 interface AuthState {
     isSignedIn: boolean;
-    userName: string | null,
-    userId: string | null,
     userName: string | null;
     userId: string | null;
 }
@@ -70,7 +68,7 @@ interface VisualizerProps {
 }
 
 interface UploadProps {
-    onComplete?: (base64File: string) => Promise<boolean | void> | boolean | void;
+    onComplete: (base64File: string) => Promise<boolean | void> | boolean | void;
     className?: string;
 }
 
@@ -121,4 +119,9 @@ interface StoreHostedImageParams {
 interface CreateProjectParams {
     item: DesignItem;
     visibility?: "private" | "public";
+}
+
+interface Generate3DViewParams {
+    sourceImage: string;
+    projectId?: string | null;
 }
