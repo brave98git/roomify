@@ -7,12 +7,12 @@ import {
   REDIRECT_DELAY_MS,
 } from "../lib/constant";
 
-type UploadProps = {
+type UploadComponentProps = Omit<UploadProps, "onComplete"> & {
   onComplete?: (base64Data: string) => void;
   onError?: (error: Error) => void;
 };
 
-const Upload = ({ onComplete, onError }: UploadProps) => {
+const Upload = ({ onComplete, onError }: UploadComponentProps) => {
   const [file, setFile] = useState<File | null>(null);
   const [isDragging, setIsDragging] = useState(false);
   const [progress, setProgress] = useState(0);

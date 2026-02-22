@@ -70,7 +70,7 @@ interface VisualizerProps {
 }
 
 interface UploadProps {
-    onComplete: (base64File: string) => Promise<boolean | void> | boolean | void;
+    onComplete?: (base64File: string) => Promise<boolean | void> | boolean | void;
     className?: string;
 }
 
@@ -89,8 +89,6 @@ interface CardProps {
 
 type AuthContext = {
     isSignedIn: boolean;
-    userName: string | null,
-    userId: string | null,
     userName: string | null;
     userId: string | null;
     refreshAuth: () => Promise<boolean>;
